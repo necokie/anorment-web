@@ -1,0 +1,357 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ANORMENT</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Cabinet+Grotesk:wght@400;500;700;800;900&family=Instrument+Sans:wght@400;500;600&display=swap');
+*{margin:0;padding:0;box-sizing:border-box;}
+body{background:#080c14;color:#e2e8f0;font-family:'Instrument Sans',sans-serif;overflow-x:hidden;}
+
+.bg-canvas{position:fixed;inset:0;pointer-events:none;z-index:0;overflow:hidden;}
+.orb{position:absolute;border-radius:50%;filter:blur(100px);opacity:0.12;}
+.orb1{width:600px;height:600px;background:#3b82f6;top:-200px;left:-150px;}
+.orb2{width:500px;height:500px;background:#6366f1;top:300px;right:-150px;}
+.orb3{width:400px;height:400px;background:#0ea5e9;bottom:200px;left:20%;}
+.orb4{width:300px;height:300px;background:#2563eb;top:60%;right:20%;}
+
+.grid-lines{position:fixed;inset:0;pointer-events:none;z-index:0;
+  background-image:linear-gradient(rgba(255,255,255,0.03) 1px,transparent 1px),
+  linear-gradient(90deg,rgba(255,255,255,0.03) 1px,transparent 1px);
+  background-size:60px 60px;}
+
+.glass{
+  background:rgba(255,255,255,0.04);
+  backdrop-filter:blur(20px);
+  -webkit-backdrop-filter:blur(20px);
+  border:1px solid rgba(255,255,255,0.07);
+}
+.glass-strong{
+  background:rgba(255,255,255,0.06);
+  backdrop-filter:blur(30px);
+  -webkit-backdrop-filter:blur(30px);
+  border:1px solid rgba(255,255,255,0.1);
+}
+
+/* HEADER */
+.hdr{
+  position:relative;z-index:10;
+  display:flex;align-items:center;justify-content:space-between;
+  padding:18px 36px;
+  border-bottom:1px solid rgba(255,255,255,0.06);
+  background:rgba(8,12,20,0.8);
+  backdrop-filter:blur(20px);
+}
+.logo{font-family:'Cabinet Grotesk',sans-serif;font-size:18px;font-weight:900;letter-spacing:3px;color:#60a5fa;}
+.logo em{font-style:normal;color:#e2e8f0;}
+.nav{display:flex;gap:28px;}
+.nav a{font-size:13px;color:rgba(226,232,240,0.5);text-decoration:none;transition:color 0.2s;}
+.nav a:hover{color:#e2e8f0;}
+.hdr-btn{
+  background:#2563eb;color:#ffffff;border:none;
+  padding:9px 20px;border-radius:20px;
+  font-size:12px;font-weight:700;cursor:pointer;
+  font-family:'Instrument Sans',sans-serif;
+  transition:0.3s;
+}
+.hdr-btn:hover{background:#3b82f6;}
+
+/* HERO */
+.hero{position:relative;z-index:1;padding:80px 36px 64px;display:grid;grid-template-columns:1fr 400px;gap:56px;align-items:center;}
+.pill{
+  display:inline-flex;align-items:center;gap:8px;
+  background:rgba(255,255,255,0.05);
+  border:1px solid rgba(255,255,255,0.08);
+  padding:6px 14px;border-radius:20px;
+  font-size:11px;color:rgba(226,232,240,0.55);
+  margin-bottom:24px;
+  backdrop-filter:blur(10px);
+}
+.pill-dot{width:6px;height:6px;background:#10b981;border-radius:50%;box-shadow:0 0 6px #10b981;}
+.h1{font-family:'Cabinet Grotesk',sans-serif;font-size:52px;font-weight:900;line-height:1.03;color:#f1f5f9;margin-bottom:20px;letter-spacing:-1.5px;}
+.h1 .line2{color:rgba(241,245,249,0.28);}
+.h1 .line3{background:linear-gradient(90deg,#60a5fa,#818cf8);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}
+.hero-p{font-size:15px;color:rgba(226,232,240,0.5);line-height:1.7;margin-bottom:36px;max-width:420px;}
+.btns{display:flex;gap:10px;}
+.btn-main{
+  background:#2563eb;color:#ffffff;border:none;
+  padding:14px 26px;border-radius:12px;
+  font-size:14px;font-weight:700;cursor:pointer;
+  font-family:'Instrument Sans',sans-serif;transition:0.3s;
+}
+.btn-main:hover{background:#3b82f6;}
+.btn-sec{
+  background:rgba(255,255,255,0.05);
+  color:rgba(226,232,240,0.8);
+  border:1px solid rgba(255,255,255,0.1);
+  padding:14px 26px;border-radius:12px;
+  font-size:14px;font-weight:500;cursor:pointer;
+  font-family:'Instrument Sans',sans-serif;
+  backdrop-filter:blur(10px);transition:0.3s;
+}
+.btn-sec:hover{background:rgba(255,255,255,0.08);}
+
+/* BENTO */
+.bento{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
+.bc{border-radius:18px;padding:20px;transition:transform 0.2s;}
+.bc:hover{transform:translateY(-3px);}
+.bc-icon{font-size:13px;font-weight:700;color:#60a5fa;margin-bottom:12px;letter-spacing:0.5px;}
+.bc-val{font-family:'Cabinet Grotesk',sans-serif;font-size:26px;font-weight:900;color:#f1f5f9;}
+.bc-label{font-size:11px;color:rgba(226,232,240,0.4);margin-top:4px;}
+.bc.hi{background:#1d4ed8;border:1px solid #2563eb;}
+.bc.hi .bc-val{color:#ffffff;}
+.bc.hi .bc-label{color:#bfdbfe;}
+.bc.hi .bc-icon{color:#bfdbfe;}
+.bc.wide{grid-column:span 2;display:flex;align-items:center;gap:16px;}
+.bc.wide .bc-val{font-size:20px;}
+
+/* STATS */
+.stats{
+  position:relative;z-index:1;
+  display:grid;grid-template-columns:repeat(4,1fr);
+  border-top:1px solid rgba(255,255,255,0.06);
+  border-bottom:1px solid rgba(255,255,255,0.06);
+  background:rgba(255,255,255,0.02);
+}
+.st{padding:22px 36px;border-right:1px solid rgba(255,255,255,0.06);}
+.st:last-child{border-right:none;}
+.st-n{font-family:'Cabinet Grotesk',sans-serif;font-size:28px;font-weight:900;color:#60a5fa;}
+.st-l{font-size:12px;color:rgba(226,232,240,0.4);margin-top:3px;}
+
+/* SECTION */
+.sec{position:relative;z-index:1;padding:64px 36px;}
+.sec-eyebrow{font-size:11px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:#60a5fa;margin-bottom:10px;}
+.sec-h{font-family:'Cabinet Grotesk',sans-serif;font-size:32px;font-weight:900;color:#f1f5f9;margin-bottom:8px;letter-spacing:-0.5px;}
+.sec-p{font-size:14px;color:rgba(226,232,240,0.45);margin-bottom:36px;line-height:1.6;}
+
+/* BENEFITS */
+.bens{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;}
+.ben{border-radius:20px;padding:28px 24px;transition:transform 0.2s;}
+.ben:hover{transform:translateY(-4px);}
+.ben-num{font-family:'Cabinet Grotesk',sans-serif;font-size:11px;font-weight:700;color:#60a5fa;letter-spacing:2px;margin-bottom:16px;}
+.ben-ico{
+  width:42px;height:42px;border-radius:12px;
+  background:rgba(96,165,250,0.08);
+  border:1px solid rgba(96,165,250,0.15);
+  display:flex;align-items:center;justify-content:center;
+  font-size:13px;font-weight:700;color:#60a5fa;margin-bottom:16px;
+}
+.ben h3{font-family:'Cabinet Grotesk',sans-serif;font-size:17px;font-weight:800;color:#f1f5f9;margin-bottom:8px;}
+.ben p{font-size:13px;color:rgba(226,232,240,0.45);line-height:1.55;}
+
+/* VENUES */
+.vgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;}
+.vc{
+  border-radius:14px;padding:18px 20px;
+  display:flex;align-items:center;justify-content:space-between;
+  cursor:pointer;transition:all 0.2s;
+}
+.vc:hover{transform:translateX(4px);border-color:rgba(96,165,250,0.3);}
+.vc-n{font-size:14px;font-weight:600;color:#f1f5f9;}
+.vc-c{font-size:11px;color:rgba(226,232,240,0.4);margin-top:3px;}
+.vc-arr{font-size:13px;color:#60a5fa;font-weight:600;}
+
+/* STEPS */
+.steps{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;}
+.step{border-radius:20px;padding:30px 26px;position:relative;overflow:hidden;}
+.step-glow{position:absolute;width:120px;height:120px;border-radius:50%;filter:blur(40px);opacity:0.12;top:-20px;right:-20px;background:#3b82f6;}
+.step-n{font-family:'Cabinet Grotesk',sans-serif;font-size:11px;font-weight:900;color:#60a5fa;letter-spacing:2px;margin-bottom:20px;}
+.step h3{font-family:'Cabinet Grotesk',sans-serif;font-size:16px;font-weight:800;color:#f1f5f9;margin-bottom:8px;}
+.step p{font-size:13px;color:rgba(226,232,240,0.45);line-height:1.55;}
+
+/* PRICING */
+.pcards{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;align-items:start;}
+.pc{border-radius:20px;padding:26px 22px;transition:transform 0.2s;}
+.pc:hover{transform:translateY(-4px);}
+.pc.pop{background:rgba(37,99,235,0.12);border:1.5px solid rgba(96,165,250,0.4) !important;}
+.pc-badge{font-size:10px;font-weight:700;letter-spacing:0.5px;background:#2563eb;color:#fff;padding:3px 10px;border-radius:20px;display:inline-block;margin-bottom:14px;}
+.pc-period{font-family:'Cabinet Grotesk',sans-serif;font-size:20px;font-weight:700;color:#f1f5f9;margin-bottom:6px;}
+.pc-price{font-family:'Cabinet Grotesk',sans-serif;font-size:36px;font-weight:900;color:#60a5fa;margin-bottom:3px;letter-spacing:-0.5px;}
+.pc-per{font-size:11px;color:rgba(226,232,240,0.4);margin-bottom:20px;}
+.pf{list-style:none;margin-bottom:20px;}
+.pf li{font-size:12px;color:rgba(226,232,240,0.5);padding:6px 0;border-bottom:1px solid rgba(255,255,255,0.05);display:flex;align-items:center;gap:6px;}
+.pf li::before{content:'-';color:#60a5fa;font-size:18px;line-height:0;font-weight:700;}
+.pc-btn{
+  width:100%;padding:12px;border-radius:10px;
+  font-size:13px;font-weight:600;cursor:pointer;
+  font-family:'Instrument Sans',sans-serif;
+  background:rgba(255,255,255,0.05);
+  color:rgba(226,232,240,0.7);
+  border:1px solid rgba(255,255,255,0.08);
+  transition:0.3s;
+}
+.pc-btn:hover{background:rgba(255,255,255,0.08);}
+.pc.pop .pc-btn{background:#2563eb;color:#fff;border-color:#2563eb;}
+.pc.pop .pc-btn:hover{background:#3b82f6;}
+
+/* CTA */
+.cta-section{
+  margin:0 36px 64px;border-radius:24px;
+  padding:56px 48px;
+  display:flex;align-items:center;justify-content:space-between;
+  position:relative;overflow:hidden;
+  background:linear-gradient(135deg,#1e3a8a,#1e1b4b);
+  border:1px solid rgba(96,165,250,0.15);
+}
+.cta-glow1{position:absolute;width:300px;height:300px;background:#3b82f6;border-radius:50%;filter:blur(80px);opacity:0.2;top:-100px;right:-50px;}
+.cta-glow2{position:absolute;width:200px;height:200px;background:#6366f1;border-radius:50%;filter:blur(60px);opacity:0.2;bottom:-50px;left:30%;}
+.cta-inner{position:relative;z-index:1;}
+.cta-h{font-family:'Cabinet Grotesk',sans-serif;font-size:36px;font-weight:900;color:#fff;margin-bottom:10px;letter-spacing:-0.5px;}
+.cta-p{font-size:15px;color:rgba(191,219,254,0.7);margin-bottom:28px;}
+.cta-btns{display:flex;gap:10px;}
+.app-btn{
+  display:flex;align-items:center;gap:10px;
+  background:rgba(255,255,255,0.1);
+  border:1px solid rgba(255,255,255,0.15);
+  padding:12px 18px;border-radius:12px;
+  color:#fff;cursor:pointer;
+  transition:all 0.2s;
+  backdrop-filter:blur(10px);
+}
+.app-btn:hover{background:rgba(255,255,255,0.15);transform:translateY(-2px);}
+.app-ico{font-size:13px;font-weight:700;color:#93c5fd;}
+.app-t small{display:block;font-size:10px;color:rgba(191,219,254,0.6);}
+.app-t strong{display:block;font-size:13px;font-weight:700;color:#fff;}
+
+/* FOOTER */
+.ftr{
+  position:relative;z-index:1;padding:24px 36px;
+  border-top:1px solid rgba(255,255,255,0.06);
+  display:flex;justify-content:space-between;align-items:center;
+  background:rgba(8,12,20,0.5);
+}
+.ftr-logo{font-family:'Cabinet Grotesk',sans-serif;font-size:15px;font-weight:900;letter-spacing:2px;color:#60a5fa;}
+.ftr-copy{font-size:12px;color:rgba(226,232,240,0.25);}
+</style>
+</head>
+<body>
+
+<div class="bg-canvas">
+  <div class="orb orb1"></div>
+  <div class="orb orb2"></div>
+  <div class="orb orb3"></div>
+  <div class="orb orb4"></div>
+</div>
+<div class="grid-lines"></div>
+
+<div class="hdr">
+  <div class="logo">ANOR<em>MENT</em></div>
+  <div class="nav">
+    <a href="#">Klublar</a>
+    <a href="#">Tariflar</a>
+    <a href="#">Qanday ishlaydi</a>
+    <a href="#">Profil</a>
+  </div>
+  <button class="hdr-btn">Tizimga kirish</button>
+</div>
+
+<div class="hero">
+  <div>
+    <div class="pill"><span class="pill-dot"></span> Samarqand shahri uchun faol</div>
+    <div class="h1">Bitta obuna<br><span class="line2">barcha o'yin</span><br><span class="line3">maskanlari</span></div>
+    <div class="hero-p">Yagona virtual tanga tizimi orqali PC PS5 va Bilyard klublariga kiring va qulay vaqtni band qiling.</div>
+    <div class="btns">
+      <button class="btn-main">Ro'yxatdan o'tish</button>
+      <button class="btn-sec">Klublarni ko'rish</button>
+    </div>
+  </div>
+  <div class="bento">
+    <div class="bc glass"><div class="bc-icon">PC</div><div class="bc-val">12+</div><div class="bc-label">Gaming markazlar</div></div>
+    <div class="bc hi"><div class="bc-icon">PS5</div><div class="bc-val">5+</div><div class="bc-label">PlayStation zallari</div></div>
+    <div class="bc glass"><div class="bc-icon">Bilyard</div><div class="bc-val">8+</div><div class="bc-label">Professional stollar</div></div>
+    <div class="bc glass"><div class="bc-icon">Tangalar</div><div class="bc-val">10K+</div><div class="bc-label">Har kuni sarflanadi</div></div>
+    <div class="bc wide glass"><div class="bc-icon">Baholar</div><div><div class="bc-val">4.9 / 5.0</div><div class="bc-label">Ilova foydalanuvchilari bahosi</div></div></div>
+  </div>
+</div>
+
+<div class="stats">
+  <div class="st"><div class="st-n">25+</div><div class="st-l">Hamkor klublar</div></div>
+  <div class="st"><div class="st-n">15K+</div><div class="st-l">Band qilingan soatlar</div></div>
+  <div class="st"><div class="st-n">Yagona</div><div class="st-l">QR kod tizimi</div></div>
+  <div class="st"><div class="st-n">24/7</div><div class="st-l">Texnik yordam</div></div>
+</div>
+
+<div class="sec">
+  <div class="sec-eyebrow">Nima uchun Anorment</div>
+  <div class="sec-h">O'yin jarayonini osonlashtiring</div>
+  <div class="sec-p">Klubma klub narx so'rab yurishni to'xtating va yagona hisobdan foydalaning.</div>
+  <div class="bens">
+    <div class="ben glass"><div class="ben-num">01</div><div class="ben-ico">Vaqt</div><h3>Vaqtni tejash</h3><p>Navbatda turmang va oldindan joyingizni aniq band qilib boring.</p></div>
+    <div class="ben glass"><div class="ben-num">02</div><div class="ben-ico">QR</div><h3>Oson kirish</h3><p>Klubga borgach telefoningizdagi QR kodni ko'rsating va o'yinni boshlang.</p></div>
+    <div class="ben glass"><div class="ben-num">03</div><div class="ben-ico">Hisob</div><h3>Yagona hisob</h3><p>Barcha xarajatlar va o'yin tarixingiz bitta ilovada to'liq saqlanadi.</p></div>
+  </div>
+</div>
+
+<div class="sec" style="padding-top:0;">
+  <div class="sec-eyebrow">Klublar katalogi</div>
+  <div class="sec-h">Asosiy xizmatlar</div>
+  <div class="sec-p">Tangalaringizni o'zingiz xohlagan maqsadga sarflang.</div>
+  <div class="vgrid">
+    <div class="vc glass"><div><div class="vc-n">PC Gaming</div><div class="vc-c">12 ta klub</div></div><span class="vc-arr">Tanlash →</span></div>
+    <div class="vc glass"><div><div class="vc-n">PS5 Zone</div><div class="vc-c">5 ta klub</div></div><span class="vc-arr">Tanlash →</span></div>
+    <div class="vc glass"><div><div class="vc-n">Bilyard</div><div class="vc-c">8 ta klub</div></div><span class="vc-arr">Tanlash →</span></div>
+  </div>
+</div>
+
+<div class="sec" style="padding-top:0;">
+  <div class="sec-eyebrow">Qanday ishlaydi</div>
+  <div class="sec-h">3 ta oddiy qadam</div>
+  <div class="sec-p">Tizimga ulanish bir necha daqiqa vaqt oladi.</div>
+  <div class="steps">
+    <div class="step glass"><div class="step-glow"></div><div class="step-n">01</div><h3>Obuna oling</h3><p>O'zingizga mos tarifni tanlang va hisobingizni virtual tangalar bilan to'ldiring.</p></div>
+    <div class="step glass"><div class="step-glow"></div><div class="step-n">02</div><h3>Klub tanlang</h3><p>Xaritadan o'zingizga yaqin joyni toping va kerakli vaqtni belgilang.</p></div>
+    <div class="step glass"><div class="step-glow"></div><div class="step-n">03</div><h3>QR orqali kiring</h3><p>Klub ma'muriyatiga kodingizni ko'rsating va hisobingizdan tanga yechiladi.</p></div>
+  </div>
+</div>
+
+<div class="sec" style="padding-top:0;">
+  <div class="sec-eyebrow">Tariflar</div>
+  <div class="sec-h">Virtual tangalar xaridi</div>
+  <div class="sec-p">O'yin soatlaringizga qarab mos hajmni tanlang.</div>
+  <div class="pcards">
+    <div class="pc glass">
+      <div class="pc-period">START PLAN</div>
+      <div class="pc-price">1500</div>
+      <div class="pc-per">virtual tanga</div>
+      <ul class="pf"><li>Barcha klublarga kirish</li><li>Standart narxlar</li><li>Cheklangan bron</li></ul>
+      <button class="pc-btn">Sotib olish</button>
+    </div>
+    <div class="pc pop glass">
+      <div class="pc-badge">ENG MASHHUR</div>
+      <div class="pc-period">PRO PLAN</div>
+      <div class="pc-price">3500</div>
+      <div class="pc-per">virtual tanga</div>
+      <ul class="pf"><li>Barcha klublarga kirish</li><li>Chegirmali narxlar</li><li>Cheksiz bron</li><li>VIP xonalar</li></ul>
+      <button class="pc-btn">Sotib olish</button>
+    </div>
+    <div class="pc glass">
+      <div class="pc-period">VIP PLAN</div>
+      <div class="pc-price">6500</div>
+      <div class="pc-per">virtual tanga</div>
+      <ul class="pf"><li>Barcha klublarga kirish</li><li>Maksimal chegirmalar</li><li>Cheksiz bron</li><li>Do'stlar uchun mehmon kartasi</li></ul>
+      <button class="pc-btn">Sotib olish</button>
+    </div>
+  </div>
+</div>
+
+<div class="cta-section">
+  <div class="cta-glow1"></div>
+  <div class="cta-glow2"></div>
+  <div class="cta-inner">
+    <div class="cta-h">Ilovani yuklab oling<br>va o'ynashni boshlang</div>
+    <div class="cta-p">Bugun boshlash uchun eng yaxshi vaqt hisoblanadi</div>
+    <div class="cta-btns">
+      <div class="app-btn"><div class="app-ico">APP</div><div class="app-t"><small>Yuklab olish</small><strong>App Store</strong></div></div>
+      <div class="app-btn"><div class="app-ico">PLAY</div><div class="app-t"><small>Yuklab olish</small><strong>Google Play</strong></div></div>
+    </div>
+  </div>
+</div>
+
+<div class="ftr">
+  <div class="ftr-logo">ANORMENT</div>
+  <div class="ftr-copy">© 2026 Anorment Entertainment · Samarqand, O'zbekiston</div>
+</div>
+
+</body>
+</html>
